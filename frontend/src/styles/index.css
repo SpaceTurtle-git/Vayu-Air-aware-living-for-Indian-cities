@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body { -webkit-font-smoothing: antialiased; }
+
+.horizon-gradient {
+  background: linear-gradient(90deg, #4CBB6C 0%, #A0C93D 20%, #F4C542 40%, #F08A3C 60%, #E24A4A 80%, #8B2E4C 100%);
+}
