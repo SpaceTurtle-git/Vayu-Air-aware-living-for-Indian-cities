@@ -19,6 +19,13 @@ RENDER_EXTERNAL_HOSTNAME = config("RENDER_EXTERNAL_HOSTNAME", default="")
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
+# Frontend is now served by this same service (same origin), so cookie-less
+# JWT auth calls need no CORS exception in production - but this keeps admin
+# login (which uses CSRF-protected session/cookie auth) working over https.
+CSRF_TRUSTED_ORIGINS = []
+if RENDER_EXTERNAL_HOSTNAME:
+    CSRF_TRUSTED_ORIGINS.append(f"https://{RENDER_EXTERNAL_HOSTNAME}")
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -98,6 +105,18 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 STORAGES = {
     "staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"},
 }
+
+# --- Serving the built React frontend from this same Django service ---
+# Single Render Web Service setup: the frontend is built (`npm run build`)
+# during the Render build step into frontend/dist, and WhiteNoise serves
+# those files (JS/CSS/images) directly at the root URL, exactly the paths
+# Vite already put in index.html (e.g. /assets/index-abc123.js) - no need
+# to funnel them through Django's own /static/ pipeline or rename anything.
+# The catch-all view in config/urls.py serves index.html itself for "/"
+# and any client-side (React Router) route.
+FRONTEND_DIST = BASE_DIR.parent / "frontend" / "dist"
+if FRONTEND_DIST.exists():
+    WHITENOISE_ROOT = FRONTEND_DIST
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 

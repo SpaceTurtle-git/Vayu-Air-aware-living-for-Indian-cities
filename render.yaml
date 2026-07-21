@@ -1,0 +1,40 @@
+services:
+  - type: web
+    name: vayu-air-aware-living
+    runtime: python
+    plan: free
+    branch: main
+    rootDir: .
+    buildCommand: ./build.sh
+    startCommand: ./start.sh
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: DJANGO_SECRET_KEY
+        sync: false
+      - key: DJANGO_DEBUG
+        value: "False"
+      - key: DJANGO_ALLOWED_HOSTS
+        value: localhost,127.0.0.1
+      - key: DATABASE_URL
+        sync: false
+      - key: FRONTEND_ORIGIN
+        value: http://localhost:5173
+      - key: OPENWEATHER_API_KEY
+        sync: false
+      - key: WAQI_API_TOKEN
+        sync: false
+      - key: OPENROUTESERVICE_API_KEY
+        sync: false
+      - key: EMAIL_HOST
+        value: smtp.gmail.com
+      - key: EMAIL_PORT
+        value: "587"
+      - key: EMAIL_USE_TLS
+        value: "True"
+      - key: EMAIL_HOST_USER
+        sync: false
+      - key: EMAIL_HOST_PASSWORD
+        sync: false
+      - key: DEFAULT_FROM_EMAIL
+        sync: false
