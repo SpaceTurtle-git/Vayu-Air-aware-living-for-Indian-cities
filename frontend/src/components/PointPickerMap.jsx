@@ -15,10 +15,10 @@ function ClickCapture({ onPick }) {
 export default function PointPickerMap({ start, end, activeField, onPick, center = [19.076, 72.8777] }) {
   return (
     <MapContainer center={center} zoom={12} style={{ height: 300, width: "100%", borderRadius: 16 }}>
-      <TileLayer
-        attribution='&copy; OpenStreetMap contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
+<TileLayer
+  url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+/>
       <ClickCapture onPick={onPick} />
       {start.lat && start.lng && (
         <CircleMarker center={[start.lat, start.lng]} radius={8}
