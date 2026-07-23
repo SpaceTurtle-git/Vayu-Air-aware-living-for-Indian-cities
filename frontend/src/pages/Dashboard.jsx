@@ -50,7 +50,12 @@ export default function Dashboard() {
       {data && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <WeatherCard weather={data.weather} />
-          <AqiCard aqi={data.aqi} waqiStation={data.waqi_station} healthAdvisory={data.health_advisory} />
+          {/* <AqiCard aqi={data.aqi} waqiStation={data.waqi_station} healthAdvisory={data.health_advisory} /> */}
+          <AqiCard
+            aqi={data.aqi}
+            location={data.weather.city_name}
+            healthAdvisory={data.health_advisory}
+          />
           <div className="lg:col-span-2">
             <PredictionChart forecast={forecast?.forecast} note={forecast?.note} />
           </div>

@@ -27,6 +27,8 @@ class DashboardView(APIView):
         except (KeyError, ValueError):
             return Response({"detail": "lat and lng query params are required"}, status=400)
 
+        print("Dashboard coordinates:", lat, lng)
+
         weather = get_current_weather(lat, lng)
         aqi = get_air_pollution_current(lat, lng)
         forecast = get_air_pollution_forecast(lat, lng)
@@ -50,7 +52,7 @@ class DashboardView(APIView):
         return Response({
             "weather": weather,
             "aqi": aqi,
-            "waqi_station": waqi_station,
+            "location": weather["city_name"],
             "forecast_4day_hourly": forecast,
             "health_advisory": health_advisory(aqi.get("aqi"), health_profile),
         })
